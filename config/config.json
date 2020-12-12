@@ -1,0 +1,19 @@
+{
+    "products": [
+        {
+            "name": "Coke",
+            "price": 25,
+            "defaultQuantity": 10
+        },
+        {
+            "name": "Pepsi",
+            "price": 35,
+            "defaultQuantity": 10
+        },
+        {
+            "name": "Soda",
+            "price": 45,
+            "defaultQuantity": 10
+        }
+    ]
+}
