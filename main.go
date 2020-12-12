@@ -3,6 +3,7 @@ package main
 import (
 	"VendingMachine/config"
 	"VendingMachine/constant"
+	"VendingMachine/operations"
 	"log"
 )
 
@@ -12,4 +13,5 @@ func main() {
 		log.Fatal(err)
 		return
 	}
+	operations.Start()
 }

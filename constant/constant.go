@@ -17,4 +17,7 @@ var (
 
 	//ProductPriceMap : Map to store product and price map
 	ProductPriceMap = make(map[string]int)
+
+	//TotalAmountCollected : TotalAmountCollected in Vending Machine
+	TotalAmountCollected = 0
 )
