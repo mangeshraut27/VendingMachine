@@ -2,7 +2,7 @@ package supplier
 
 import (
 	"VendingMachine/config"
-	"VendingMachine/constant"
+	"VendingMachine/global"
 	"VendingMachine/product"
 	"VendingMachine/utils"
 	"fmt"
@@ -28,11 +28,11 @@ var AccessMachine = func() bool {
 	switch input {
 	case 1:
 		product.ConvertProductToMap()
-		constant.TotalAmountCollected = 0
+		global.TotalAmountCollected = 0
 	case 2:
 		checkAvailanilityQuantity()
 	case 3:
-		fmtPrintf("Total Amount Collected : %d \n", constant.TotalAmountCollected)
+		fmtPrintf("Total Amount Collected : %d \n", global.TotalAmountCollected)
 	default:
 		fmtPrintln("Invalid Input. Please try again")
 	}
@@ -41,6 +41,6 @@ var AccessMachine = func() bool {
 
 var checkAvailanilityQuantity = func() {
 	for _, products := range config.Config.Products {
-		fmtPrintf("Product %s has %d quantity remaining \n", products.Name, constant.ProductAvailabilityMap[products.Name])
+		fmtPrintf("Product %s has %d quantity remaining \n", products.Name, global.ProductAvailabilityMap[products.Name])
 	}
 }

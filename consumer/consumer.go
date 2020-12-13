@@ -1,7 +1,7 @@
 package consumer
 
 import (
-	"VendingMachine/constant"
+	"VendingMachine/global"
 	"VendingMachine/utils"
 	"fmt"
 	"io"
@@ -15,8 +15,8 @@ var (
 )
 
 var isAnyProductAvailable = func() bool {
-	for key := range constant.ProductAvailabilityMap {
-		if constant.ProductAvailabilityMap[key] > 0 {
+	for key := range global.ProductAvailabilityMap {
+		if global.ProductAvailabilityMap[key] > 0 {
 			return true
 		}
 	}
@@ -41,21 +41,21 @@ var SelectProduct = func() bool {
 	}
 	switch input {
 	case 1:
-		if constant.ProductAvailabilityMap["Coke"] == 0 {
+		if global.ProductAvailabilityMap["Coke"] == 0 {
 			fmtPrintln("Coke is not available at this moment. Please try another drink.")
 			return false
 		}
 		fmtPrintln("Processing purchase for Coke")
 		return confirmPurchase("Coke")
 	case 2:
-		if constant.ProductAvailabilityMap["Pepsi"] == 0 {
+		if global.ProductAvailabilityMap["Pepsi"] == 0 {
 			fmtPrintln("Pepsi is not available at this moment. Please try another drink.")
 			return false
 		}
 		fmtPrintln("Processing purchase for Pepsi")
 		return confirmPurchase("Pepsi")
 	case 3:
-		if constant.ProductAvailabilityMap["Soda"] == 0 {
+		if global.ProductAvailabilityMap["Soda"] == 0 {
 			fmtPrintln("Soda is not available at this moment. Please try another drink.")
 			return false
 		}
@@ -91,9 +91,12 @@ var confirmPurchase = func(productName string) bool {
 
 //buyProduct : steps to perform when purchase is confirmed
 var buyProduct = func(productName string) bool {
-	priceOfProduct := constant.ProductPriceMap[productName]
+	priceOfProduct := global.ProductPriceMap[productName]
 	breakLoop := getCoins(priceOfProduct)
-	constant.ProductAvailabilityMap[productName] = constant.ProductAvailabilityMap[productName] - 1
+	if !breakLoop {
+		fmt.Printf("Please collect %s \n", productName)
+		global.ProductAvailabilityMap[productName] = global.ProductAvailabilityMap[productName] - 1
+	}
 	return breakLoop
 }
 
@@ -112,7 +115,7 @@ var getCoins = func(amount int) bool {
 			}
 			return true
 		}
-		if constant.AcceptedCoinsMap[amountReceived] {
+		if global.AcceptedCoinsMap[amountReceived] {
 			TotalAmountReceived += amountReceived
 			if TotalAmountReceived < amount {
 				fmtPrintf("Please add more %d \n", amount-TotalAmountReceived)
@@ -126,6 +129,6 @@ var getCoins = func(amount int) bool {
 		fmtPrintf("Please collect change of %d \n", TotalAmountReceived-amount)
 	}
 	TotalAmountReceived = 0
-	constant.TotalAmountCollected += amount
+	global.TotalAmountCollected += amount
 	return false
 }

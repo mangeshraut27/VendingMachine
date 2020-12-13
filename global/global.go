@@ -1,4 +1,4 @@
-package constant
+package global
 
 var (
 	//AcceptedCoinsMap is map of coins that our machine accepts

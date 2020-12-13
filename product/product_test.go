@@ -2,7 +2,7 @@ package product
 
 import (
 	"VendingMachine/config"
-	"VendingMachine/constant"
+	"VendingMachine/global"
 	"testing"
 )
 
@@ -15,8 +15,8 @@ func TestConvertProductToMap(t *testing.T) {
 	config.Config.Products = append(config.Config.Products, sampleProduct)
 	t.Run("ConvertProductToMap", func(t *testing.T) {
 		ConvertProductToMap()
-		if len(constant.ProductPriceMap) != len(config.Config.Products) || len(constant.ProductAvailabilityMap) != len(config.Config.Products) {
-			t.Errorf("Expecting length of products price map as 1 and got %d. Expecting length of products Availability map as 1 and got %d", len(constant.ProductPriceMap), len(constant.ProductAvailabilityMap))
+		if len(global.ProductPriceMap) != len(config.Config.Products) || len(global.ProductAvailabilityMap) != len(config.Config.Products) {
+			t.Errorf("Expecting length of products price map as 1 and got %d. Expecting length of products Availability map as 1 and got %d", len(global.ProductPriceMap), len(global.ProductAvailabilityMap))
 		}
 	})
 }

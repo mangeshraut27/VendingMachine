@@ -1,7 +1,7 @@
 package consumer
 
 import (
-	"VendingMachine/constant"
+	"VendingMachine/global"
 	"VendingMachine/utils"
 	"errors"
 	"fmt"
@@ -98,7 +98,7 @@ func TestSelectProduct(t *testing.T) {
 	t.Run("Coke unavailable", func(t *testing.T) {
 		utils.GetUserInput = GetUserInputPressedOneMock
 		fmtPrintln = fmtPrintlnMock
-		constant.ProductAvailabilityMap["Coke"] = 0
+		global.ProductAvailabilityMap["Coke"] = 0
 		SelectProduct()
 		if printMessage != fmt.Sprintln("Coke is not available at this moment. Please try another drink.") {
 			t.Errorf("Expected %s Print Statement and received : %s", "'Coke is not available at this moment. Please try another drink.'", printMessage)
@@ -108,7 +108,7 @@ func TestSelectProduct(t *testing.T) {
 		utils.GetUserInput = GetUserInputPressedOneMock
 		fmtPrintln = fmtPrintlnMock
 		confirmPurchase = confirmPurchaseMock
-		constant.ProductAvailabilityMap["Coke"] = 10
+		global.ProductAvailabilityMap["Coke"] = 10
 		SelectProduct()
 		if printMessage != fmt.Sprintln("Processing purchase for Coke") {
 			t.Errorf("Expected %s Print Statement and received : %s", "'Processing purchase for Coke'", printMessage)
@@ -117,7 +117,7 @@ func TestSelectProduct(t *testing.T) {
 	t.Run("Pepsi unavailable", func(t *testing.T) {
 		utils.GetUserInput = GetUserInputPressedTwoMock
 		fmtPrintln = fmtPrintlnMock
-		constant.ProductAvailabilityMap["Pepsi"] = 0
+		global.ProductAvailabilityMap["Pepsi"] = 0
 		SelectProduct()
 		if printMessage != fmt.Sprintln("Pepsi is not available at this moment. Please try another drink.") {
 			t.Errorf("Expected %s Print Statement and received : %s", "'Pepsi is not available at this moment. Please try another drink.'", printMessage)
@@ -127,7 +127,7 @@ func TestSelectProduct(t *testing.T) {
 		utils.GetUserInput = GetUserInputPressedTwoMock
 		fmtPrintln = fmtPrintlnMock
 		confirmPurchase = confirmPurchaseMock
-		constant.ProductAvailabilityMap["Pepsi"] = 10
+		global.ProductAvailabilityMap["Pepsi"] = 10
 		SelectProduct()
 		if printMessage != fmt.Sprintln("Processing purchase for Pepsi") {
 			t.Errorf("Expected %s Print Statement and received : %s", "'Processing purchase for Pepsi'", printMessage)
@@ -136,7 +136,7 @@ func TestSelectProduct(t *testing.T) {
 	t.Run("Soda unavailable", func(t *testing.T) {
 		utils.GetUserInput = GetUserInputPressedThreeMock
 		fmtPrintln = fmtPrintlnMock
-		constant.ProductAvailabilityMap["Soda"] = 0
+		global.ProductAvailabilityMap["Soda"] = 0
 		SelectProduct()
 		if printMessage != fmt.Sprintln("Soda is not available at this moment. Please try another drink.") {
 			t.Errorf("Expected %s Print Statement and received : %s", "'Soda is not available at this moment. Please try another drink.'", printMessage)
@@ -146,7 +146,7 @@ func TestSelectProduct(t *testing.T) {
 		utils.GetUserInput = GetUserInputPressedThreeMock
 		fmtPrintln = fmtPrintlnMock
 		confirmPurchase = confirmPurchaseMock
-		constant.ProductAvailabilityMap["Soda"] = 10
+		global.ProductAvailabilityMap["Soda"] = 10
 		SelectProduct()
 		if printMessage != fmt.Sprintln("Processing purchase for Soda") {
 			t.Errorf("Expected %s Print Statement and received : %s", "'Processing purchase for Soda'", printMessage)
@@ -165,16 +165,16 @@ func TestSelectProduct(t *testing.T) {
 
 func TestIsAnyProductAvailable(t *testing.T) {
 	t.Run("Return true", func(t *testing.T) {
-		constant.ProductAvailabilityMap["Coke"] = 1
+		global.ProductAvailabilityMap["Coke"] = 1
 		availability := isAnyProductAvailable()
 		if !availability {
 			t.Error("Expecting true but returns false")
 		}
 	})
 	t.Run("Return false", func(t *testing.T) {
-		constant.ProductAvailabilityMap["Coke"] = 0
-		constant.ProductAvailabilityMap["Pepsi"] = 0
-		constant.ProductAvailabilityMap["Soda"] = 0
+		global.ProductAvailabilityMap["Coke"] = 0
+		global.ProductAvailabilityMap["Pepsi"] = 0
+		global.ProductAvailabilityMap["Soda"] = 0
 		availability := isAnyProductAvailable()
 		if availability {
 			t.Error("Expecting false but returns true")
@@ -232,10 +232,10 @@ func TestBuyProduct(t *testing.T) {
 	}()
 	t.Run("Product Purchased", func(t *testing.T) {
 		getCoins = getCoinsMock
-		constant.ProductAvailabilityMap["Coke"] = 2
+		global.ProductAvailabilityMap["Coke"] = 2
 		buyProduct("Coke")
-		if constant.ProductAvailabilityMap["Coke"] != 1 {
-			t.Errorf("Expecting product quantity reduction by 1 but not reduced. Current Quantity : %d \n", constant.ProductAvailabilityMap["Coke"])
+		if global.ProductAvailabilityMap["Coke"] != 1 {
+			t.Errorf("Expecting product quantity reduction by 1 but not reduced. Current Quantity : %d \n", global.ProductAvailabilityMap["Coke"])
 		}
 	})
 }
@@ -275,10 +275,10 @@ func TestGetCoins(t *testing.T) {
 	t.Run("Amount needed 25", func(t *testing.T) {
 		utils.GetUserInput = GetUserInputPressedTwentyFiveMock
 		fmtPrintf = fmtPrintfMock
-		constant.TotalAmountCollected = 0
+		global.TotalAmountCollected = 0
 		getCoins(25)
-		if constant.TotalAmountCollected != 25 {
-			t.Errorf("Expecting constant.TotalAmountCollected as 25. received : %d \n", constant.TotalAmountCollected)
+		if global.TotalAmountCollected != 25 {
+			t.Errorf("Expecting global.TotalAmountCollected as 25. received : %d \n", global.TotalAmountCollected)
 		}
 	})
 	t.Run("Amount needed 10", func(t *testing.T) {

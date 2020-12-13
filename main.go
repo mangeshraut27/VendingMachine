@@ -2,8 +2,8 @@ package main
 
 import (
 	"VendingMachine/config"
-	"VendingMachine/constant"
 	"VendingMachine/consumer"
+	"VendingMachine/global"
 	"VendingMachine/operations"
 	"fmt"
 	"log"
@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	err := config.LoadConfig(constant.ConfigFilePath)
+	err := config.LoadConfig(global.ConfigFilePath)
 	if err != nil {
 		log.Fatal(err)
 		return
