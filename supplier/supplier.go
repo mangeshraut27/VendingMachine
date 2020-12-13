@@ -15,14 +15,14 @@ var (
 )
 
 //AccessMachine supplier flow
-var AccessMachine = func() {
+var AccessMachine = func() bool {
 	fmt.Println("Press 1 to reset Vending Machine, 2 for checking available quantity, 3 for Total Amount Collected")
 	input, err := utils.GetUserInput()
 	if err != nil {
 		if err != io.EOF {
 			fmtPrintf("Runtime error occured : %v \n", err)
 		}
-		return
+		return true
 	}
 
 	switch input {
@@ -36,6 +36,7 @@ var AccessMachine = func() {
 	default:
 		fmtPrintln("Invalid Input. Please try again")
 	}
+	return false
 }
 
 var checkAvailanilityQuantity = func() {

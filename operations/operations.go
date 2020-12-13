@@ -11,15 +11,22 @@ import (
 )
 
 //Start : Starts Vending Machine
-func Start() {
+func Start(signalChannel chan struct{}) {
+
 	product.ConvertProductToMap()
 	fmt.Println("Welcome at Vending Machine")
 	for {
 		breakOperation := selectUser()
 		if breakOperation {
+			if consumer.TotalAmountReceived > 0 {
+				fmt.Println("Operation interuppted")
+				fmt.Printf("Please Collect %d coins \n", consumer.TotalAmountReceived)
+				consumer.TotalAmountReceived = 0
+			}
 			break
 		}
 	}
+	signalChannel <- struct{}{}
 }
 
 var selectUser = func() bool {
@@ -35,9 +42,9 @@ var selectUser = func() bool {
 	}
 	switch input {
 	case 1:
-		supplier.AccessMachine()
+		return supplier.AccessMachine()
 	case 2:
-		consumer.SelectProduct()
+		return consumer.SelectProduct()
 	case 3:
 		return true
 	default:

@@ -33,11 +33,11 @@ var GetUserInputPressedFiveMock = func() (int, error) {
 	return 5, nil
 }
 
-var SelectProductMock = func() {
-	return
+var SelectProductMock = func() bool {
+	return false
 }
-var AccessMachineMock = func() {
-	return
+var AccessMachineMock = func() bool {
+	return false
 }
 
 var GetUserInputMockError = func() (int, error) {
@@ -55,10 +55,15 @@ func TestStart(t *testing.T) {
 		product.ConvertProductToMap = oldConvertProductMap
 		selectUser = oldSelectUser
 	}()
+	signalChannel := make(chan struct{})
+	go func() {
+		<-signalChannel
+	}()
 	t.Run("Start", func(t *testing.T) {
 		product.ConvertProductToMap = ConvertProductToMapMock
 		selectUser = selectUserMock
-		Start()
+		consumer.TotalAmountReceived = 10
+		Start(signalChannel)
 	})
 }
 

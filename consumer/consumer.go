@@ -49,12 +49,12 @@ var isAnyProductAvailable = func() bool {
 }
 
 //SelectProduct Select product
-var SelectProduct = func() {
+var SelectProduct = func() bool {
 	var input int
 	available := isAnyProductAvailable()
 	if !available {
 		fmtPrintln("No products available at this moment.")
-		return
+		return false
 	}
 	fmt.Println("Press 1 for Coke, 2 for Pepsi, 3 for Soda")
 	input, err := utils.GetUserInput()
@@ -62,33 +62,34 @@ var SelectProduct = func() {
 		if err != io.EOF {
 			fmtPrintf("Runtime error occured : %v \n", err)
 		}
-		return
+		return true
 	}
 	switch input {
 	case 1:
 		if constant.ProductAvailabilityMap["Coke"] == 0 {
 			fmtPrintln("Coke is not available at this moment. Please try another drink.")
-			return
+			return false
 		}
 		fmtPrintln("Processing purchase for Coke")
-		confirmPurchase("Coke")
+		return confirmPurchase("Coke")
 	case 2:
 		if constant.ProductAvailabilityMap["Pepsi"] == 0 {
 			fmtPrintln("Pepsi is not available at this moment. Please try another drink.")
-			return
+			return false
 		}
 		fmtPrintln("Processing purchase for Pepsi")
-		confirmPurchase("Pepsi")
+		return confirmPurchase("Pepsi")
 	case 3:
 		if constant.ProductAvailabilityMap["Soda"] == 0 {
 			fmtPrintln("Soda is not available at this moment. Please try another drink.")
-			return
+			return false
 		}
 		fmtPrintln("Processing purchase for Soda")
-		confirmPurchase("Soda")
+		return confirmPurchase("Soda")
 	default:
 		fmtPrintln("Invalid Input. Please try again")
 	}
+	return false
 }
 
 /*
@@ -123,7 +124,7 @@ func returnProduct() {
 	fmt.Printf("Please collect %d amount \n", constant.ProductPriceMap[productName])
 } */
 
-var confirmPurchase = func(productName string) {
+var confirmPurchase = func(productName string) bool {
 	var input int
 	fmt.Println("Press 1 to Confirm or 2 for Cancel")
 	input, err := utils.GetUserInput()
@@ -131,29 +132,30 @@ var confirmPurchase = func(productName string) {
 		if err != io.EOF {
 			fmtPrintf("Runtime error occured : %v \n", err)
 		}
-		return
+		return true
 	}
 	switch input {
 	case 1:
 		fmtPrintln("Purchase confirmed")
-		buyProduct(productName)
+		return buyProduct(productName)
 	case 2:
 		fmtPrintln("Purchase cancelled")
-		return
 	default:
 		fmtPrintln("Invalid Input. Please try again")
 	}
+	return false
 }
 
 //buyProduct : steps to perform when purchase is confirmed
-var buyProduct = func(productName string) {
+var buyProduct = func(productName string) bool {
 	priceOfProduct := constant.ProductPriceMap[productName]
-	getCoins(priceOfProduct)
+	breakLoop := getCoins(priceOfProduct)
 	constant.ProductAvailabilityMap[productName] = constant.ProductAvailabilityMap[productName] - 1
+	return breakLoop
 }
 
 //getCoins received given amount
-var getCoins = func(amount int) {
+var getCoins = func(amount int) bool {
 	fmt.Printf("Please enter coins. Total Amount : %d \n", amount)
 	var amountReceived int
 	var err error
@@ -165,7 +167,7 @@ var getCoins = func(amount int) {
 				fmt.Printf("Please Collect %d coins", TotalAmountReceived)
 				TotalAmountReceived = 0
 			}
-			return
+			return true
 		}
 		if constant.AcceptedCoinsMap[amountReceived] {
 			TotalAmountReceived += amountReceived
@@ -182,4 +184,5 @@ var getCoins = func(amount int) {
 	}
 	TotalAmountReceived = 0
 	constant.TotalAmountCollected += amount
+	return false
 }

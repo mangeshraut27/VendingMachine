@@ -56,16 +56,16 @@ var fmtPrintlnMock = func(a ...interface{}) (n int, err error) {
 	return 0, nil
 }
 
-var confirmPurchaseMock = func(product string) {
-	return
+var confirmPurchaseMock = func(product string) bool {
+	return false
 }
 
-var buyProductMock = func(product string) {
-	return
+var buyProductMock = func(product string) bool {
+	return false
 }
 
-var getCoinsMock = func(amount int) {
-	return
+var getCoinsMock = func(amount int) bool {
+	return false
 }
 
 func TestSelectProduct(t *testing.T) {
