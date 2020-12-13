@@ -14,31 +14,6 @@ var (
 	fmtPrintln          = fmt.Println
 )
 
-//Consume consumer flow
-/* var Consume = func() {
-	available := isAnyProductAvailable()
-	if !available {
-		fmtPrintln("No products available at this moment.")
-		return
-	}
-	fmt.Println("Press 1 to Buy")
-	input, err := utils.GetUserInput()
-	if err != nil {
-		if err != io.EOF {
-			fmtPrintf("Runtime error occured : %v \n", err)
-		}
-		return
-	}
-	switch input {
-	case 1:
-		SelectProduct()
-	case 2:
-	returnProduct()
-	default:
-		fmtPrintln("Invalid Input. Please try again")
-	}
-} */
-
 var isAnyProductAvailable = func() bool {
 	for key := range constant.ProductAvailabilityMap {
 		if constant.ProductAvailabilityMap[key] > 0 {
@@ -91,38 +66,6 @@ var SelectProduct = func() bool {
 	}
 	return false
 }
-
-/*
-func returnProduct() {
-	var input int
-	fmt.Println("Press 1 for Coke, 2 for Pepsi, 3 for Soda or 4 for exit")
-	_, err := fmt.Scanln(&input)
-	if err != nil {
-		if err != io.EOF {
-			log.Printf("Runtime error occured : %v \n", err)
-		}
-		return
-	}
-	switch input {
-	case 1:
-		processReturnProduct("Coke")
-	case 2:
-		processReturnProduct("Pepsi")
-	case 3:
-		processReturnProduct("Soda")
-	case 4:
-		return
-	default:
-		fmt.Println("Invalid Input. Please try again")
-		returnProduct()
-	}
-} */
-
-/* func processReturnProduct(productName string) {
-	constant.ProductAvailabilityMap[productName] = constant.ProductAvailabilityMap[productName] + 1
-	constant.TotalAmountCollected = constant.TotalAmountCollected - constant.ProductPriceMap[productName]
-	fmt.Printf("Please collect %d amount \n", constant.ProductPriceMap[productName])
-} */
 
 var confirmPurchase = func(productName string) bool {
 	var input int
