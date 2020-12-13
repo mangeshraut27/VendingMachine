@@ -174,5 +174,6 @@ func getCoins(amount int) {
 	if TotalAmountReceived > amount {
 		fmt.Printf("Please collect change of %d \n", TotalAmountReceived-amount)
 	}
+	TotalAmountReceived = 0
 	constant.TotalAmountCollected += amount
 }
