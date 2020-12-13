@@ -2,9 +2,13 @@ package utils
 
 import "fmt"
 
+var (
+	fmtScanln = fmt.Scanln
+)
+
 //GetUserInput GetUserInput
-func GetUserInput() (int, error) {
+var GetUserInput = func() (int, error) {
 	var input int
-	_, err := fmt.Scanln(&input)
+	_, err := fmtScanln(&input)
 	return input, err
 }

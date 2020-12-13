@@ -4,19 +4,23 @@ import (
 	"VendingMachine/config"
 	"VendingMachine/constant"
 	"VendingMachine/product"
+	"VendingMachine/utils"
 	"fmt"
 	"io"
-	"log"
+)
+
+var (
+	fmtPrintf  = fmt.Printf
+	fmtPrintln = fmt.Println
 )
 
 //AccessMachine supplier flow
-func AccessMachine() {
-	var input int
-	fmt.Println("Press 1 to reset Vending Machine, 2 for checking available quantity, 3 for Total Amount Collected and 4 for Exit")
-	_, err := fmt.Scanln(&input)
+var AccessMachine = func() {
+	fmt.Println("Press 1 to reset Vending Machine, 2 for checking available quantity, 3 for Total Amount Collected")
+	input, err := utils.GetUserInput()
 	if err != nil {
 		if err != io.EOF {
-			log.Printf("Runtime error occured : %v \n", err)
+			fmtPrintf("Runtime error occured : %v \n", err)
 		}
 		return
 	}
@@ -28,17 +32,14 @@ func AccessMachine() {
 	case 2:
 		checkAvailanilityQuantity()
 	case 3:
-		fmt.Printf("Total Amount Collected : %d \n", constant.TotalAmountCollected)
-	case 4:
-		return
+		fmtPrintf("Total Amount Collected : %d \n", constant.TotalAmountCollected)
 	default:
-		fmt.Println("Invalid Input. Please try again")
+		fmtPrintln("Invalid Input. Please try again")
 	}
-	AccessMachine()
 }
 
-func checkAvailanilityQuantity() {
+var checkAvailanilityQuantity = func() {
 	for _, products := range config.Config.Products {
-		fmt.Printf("Product %s has %d quantity remaining \n", products.Name, constant.ProductAvailabilityMap[products.Name])
+		fmtPrintf("Product %s has %d quantity remaining \n", products.Name, constant.ProductAvailabilityMap[products.Name])
 	}
 }

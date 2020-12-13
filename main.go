@@ -22,10 +22,10 @@ func main() {
 	go operations.Start()
 	select {
 	case sig := <-c:
-		fmt.Printf("Got %s signal. Aborting Vending Machine Execution...\n", sig)
 		if consumer.TotalAmountReceived > 0 {
 			fmt.Printf("Please Collect %d coins \n", consumer.TotalAmountReceived)
 			consumer.TotalAmountReceived = 0
 		}
+		fmt.Printf("Got %s signal. Aborting Vending Machine Execution...\n", sig)
 	}
 }
